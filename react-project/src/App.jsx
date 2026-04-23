@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
 
-  // Control de vistas
+  // Views
   const [view, setView] = useState("home")
 
   // Sum numbers
@@ -15,11 +15,30 @@ function App() {
     alert(sum)
   }
 
+  // Calculator
+  const [calc, setCalc] = useState("")
+
+  const handleCalc = (value) => {
+    if (value === "C") {
+      setCalc("")
+    } else if (value === "⌫") {
+      setCalc(calc.slice(0, -1))
+    } else if (value === "=") {
+      try {
+        setCalc(eval(calc).toString())
+      } catch {
+        setCalc("Error")
+      }
+    } else {
+      setCalc(calc + value)
+    }
+  }
+
   return (
     <>
-      {/* HOME */}
+      {/* Home */}
       {view === "home" && (
-        <div>
+        <div className='container'>
           <h2>Home</h2>
 
           <button onClick={() => setView("sum")}>
@@ -27,15 +46,15 @@ function App() {
           </button>
           <br />
           <button onClick={() => setView("calc")}>
-            Button 2 (Calculadora)
+            Button 2 (Calculator)
           </button>
         </div>
       )}
 
-      {/* SUMA */}
+      {/* Sum */}
       {view === "sum" && (
-        <div>
-          <h2>Suma</h2>
+        <div className='container'>
+          <h2>Sum</h2>
 
           <p>Number 1</p>
           <input
@@ -50,25 +69,44 @@ function App() {
             value={num2}
             onChange={(e) => setNum2(e.target.value)}
           />
-
+          <br />
           <button onClick={handleSum}>Sum</button>
 
           <br /><br />
           <button onClick={() => setView("home")}>
-            Volver
+            Back
           </button>
         </div>
       )}
 
-      {/* CALCULADORA */}
+      {/* Calculator */}
       {view === "calc" && (
-        <div>
+        <div className='container'>
           <h2>Calculator</h2>
 
-          <p>Aquí va tu calculadora...</p>
+          {/*Display*/}
+          <input type="text" value={calc} readOnly style={{ width: "20rem" }} />
 
+          <br />
+
+          {/*Buttons*/}
+
+          <div className='calc-buttons'>
+            {[
+              "/", "*", "C", "⌫",
+              "7", "8", "9", "-",
+              "4", "5", "6", "+",
+              "1", "2", "3", "=",
+              "0", "."
+            ].map((item) => (
+              <button key={item} onClick={() => handleCalc(item)}>
+                {item}
+              </button>
+            ))}
+          </div>
+          <br />
           <button onClick={() => setView("home")}>
-            Volver
+            Back
           </button>
         </div>
       )}
