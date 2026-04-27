@@ -1,36 +1,24 @@
 import { useState } from 'react'
 import './App.css'
+import Button from './components/Button'
+import Sum from './components/Sum'
+import Calculator from './components/Calculator'
+import Api from './components/Api'
 
 function App() {
-  const [num1, setNum1] = useState("")
-  const [num2, setNum2] = useState("")
+  const [view, setView] = useState('home')
 
-  const handleSum = () => {
-    const sum = Number(num1) + Number(num2)
-    alert(sum)
-  }
+  if (view === 'sum') return <Sum onBack={() => setView('home')} />
+  if (view === 'calculator') return <Calculator onBack={() => setView('home')} />
+  if (view === 'api') return <Api onBack={() => setView('home')} />
 
   return (
-    <>
-      <h2>Suma</h2>
-
-      <p>Number 1</p>
-      <input
-        type="number"
-        value={num1}
-        onChange={(e) => setNum1(e.target.value)}
-      />
-
-      <p>Number 2</p>
-      <input
-        type="number"
-        value={num2}
-        onChange={(e) => setNum2(e.target.value)}
-      />
-
-      <button onClick={handleSum}>Sum</button>
-
-    </>
+    <div className="flex flex-col gap-4 items-center p-8">
+      <h1 className="text-4xl font-semibold">React App</h1>
+      <Button onClick={() => setView('sum')}>Sum</Button>
+      <Button onClick={() => setView('calculator')}>Calculator</Button>
+      <Button onClick={() => setView('api')}>Demon Slayer API</Button>
+    </div>
   )
 }
 
